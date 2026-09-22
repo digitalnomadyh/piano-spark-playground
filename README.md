@@ -1,6 +1,6 @@
 # Piano Spark Playground 🎹✨
 
-A playful, English-language piano learning app for young children and their teachers. The app currently displays the name **Note Explorer**.
+A playful, English-language piano learning app for young children and their teachers.
 
 ## Explore
 
