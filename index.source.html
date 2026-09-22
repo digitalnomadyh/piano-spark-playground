@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Note Explorer — See the note. Find the key.</title>
+  <meta name="description" content="Learn to connect professionally engraved piano notes with an 88-key piano.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23191a26'/%3E%3Cpath d='M37 15v30M37 15l13-3v7l-13 3' stroke='%23ffc857' stroke-width='4'/%3E%3Cellipse cx='29' cy='45' rx='10' ry='7' fill='%23ffc857'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/styles.css?v=4">
+  <script src="/vendor/vexflow.js" defer></script>
+  <script src="/vendor/pdf.min.js" defer></script>
+  <script src="/music-model.js?v=4" defer></script>
+  <script src="/song-model.js" defer></script>
+  <script src="/prepared-scores.js" defer></script>
+  <script src="/app.js?v=4" defer></script>
+  <script src="/song.js" defer></script>
+</head>
+<body>
+<main>
+  <header class="top">
+    <div class="brand"><div class="mark" aria-hidden="true">♪</div><div><h1>Note Explorer</h1><p>See the note. Find the key.</p></div></div>
+    <div class="score"><span aria-hidden="true">★</span> <span id="points">0</span> notes found</div>
+  </header>
+  <div class="modebar">
+    <div class="mode-buttons" role="group" aria-label="Learning activity">
+      <button class="mode-button" id="practiceMode" aria-pressed="true">Find a note</button>
+      <button class="mode-button" id="songMode" aria-pressed="false">Upload a score</button>
+    </div>
+    <div class="sound-controls">
+      <label class="settings-label">B is <select id="syllable" aria-label="Solfege name for B"><option value="Si">Si</option><option value="Ti">Ti</option></select></label>
+      <button class="utility" id="sound" aria-pressed="true">Sound on</button>
+    </div>
+  </div>
+  <div class="learning-surface" id="surface">
+    <section class="card" id="practiceCard" aria-label="Read the music">
+      <div class="toolbar">
+        <div class="clefs" role="group" aria-label="Choose a clef">
+          <button class="pill" data-clef="treble" aria-pressed="true">Treble clef</button>
+          <button class="pill" data-clef="bass" aria-pressed="false">Bass clef</button>
+        </div>
+        <span class="control-caption">Match the exact octave</span>
+      </div>
+      <div class="heading"><h2 id="question">Find this note on the piano</h2><p id="instruction">Take your time. Match the note and its octave.</p></div>
+      <div class="notation-wrap"><div id="notation" class="notation" role="img" aria-label="Treble clef practice note"></div></div>
+      <p class="feedback" id="status" aria-live="polite">Preparing the score…</p>
+      <div class="actions">
+        <button class="action" id="hear">Hear note</button>
+        <button class="action primary" id="hint">Show answer ✧</button>
+        <button class="action" id="next">Next note →</button>
+      </div>
+    </section>
+    <section class="card song-card" id="songCard" aria-label="Upload and play a score" hidden>
+      <div class="song-intro"><h2>Your score, on the piano</h2><p>See your sheet music and follow the notes as they play.</p></div>
+      <details class="score-source" id="sourceDetails" open><summary>Upload or view your original score</summary>
+        <section class="source-pane" aria-labelledby="sourceTitle">
+          <h3 id="sourceTitle">Add your score</h3>
+          <label class="upload-zone" id="uploadZone" for="scoreFile"><span class="upload-icon" aria-hidden="true">↑</span><strong>Choose a photo or PDF</strong><span>PNG, JPG, WebP or PDF · up to 10 MB</span></label>
+          <input type="file" id="scoreFile" accept="image/png,image/jpeg,image/webp,application/pdf,.pdf" aria-label="Upload a photo or PDF score">
+          <p class="upload-help">No four-bar upload limit. Files stay in this browser. Preview works with photos and PDFs; automatic music recognition is not connected yet.</p>
+          <p id="fileStatus" class="file-status" role="status">No score selected.</p>
+          <div id="sourceControls" class="source-controls" hidden>
+            <button type="button" id="previousPage" aria-label="Previous PDF page">←</button><span id="pageLabel"></span><button type="button" id="nextPage" aria-label="Next PDF page">→</button>
+            <button type="button" id="rotateScore" aria-label="Rotate score clockwise">Rotate</button>
+            <button type="button" id="removeScore">Remove</button>
+          </div>
+          <div id="sourceViewport" class="source-viewport" hidden><canvas id="sourceCanvas" role="img" aria-label="Uploaded score reference"></canvas></div>
+        </section>
+      </details>
+      <section class="song-review" aria-label="Playable music">
+        <h3>Listen and follow</h3><p id="songValidation" role="status">Upload a score to see its preview.</p>
+        <div class="score-navigation" id="scoreNavigation" hidden><button id="previousBars" aria-label="Previous bars">←</button><span id="barsLabel"></span><button id="nextBars" aria-label="Next bars">→</button><span>Turns pages automatically during playback</span></div>
+        <div id="songNotation" class="song-notation" role="img" aria-label="Prepared melody"></div>
+        <div class="song-transport"><label>Tempo <input id="songTempo" type="number" min="30" max="180" step="1" value="80" aria-label="Tempo in quarter notes per minute"> <span>♩/min</span></label><label><input id="songRepeat" type="checkbox"> Repeat</label><button class="action primary" id="playSong" disabled>▶ Play song</button><button class="action" id="stopSong" disabled>■ Stop</button><span id="songPosition" role="status"></span></div>
+      </section>
+    </section>
+    <section class="piano" aria-label="88-key piano">
+      <div class="piano-heading">
+        <div><strong>Follow the light</strong><p>All 88 keys · A0–C8 · slide to explore</p></div>
+        <div class="piano-tools"><button class="centre" id="demo">▶ Watch Do–Do</button><button class="centre" id="centre">Centre on C4</button></div>
+      </div>
+      <div class="keyboard-scroll" id="keyScroll" tabindex="0" aria-label="Scrollable piano keyboard">
+        <div class="piano-track">
+          <div id="fallLane" class="fall-lane" aria-hidden="true"></div>
+          <div id="keyboard" class="keyboard"></div>
+        </div>
+      </div>
+      <p class="piano-foot">Middle C = C4 = Do <span>Tap any key to hear its pitch</span></p>
+    </section>
+    <svg id="beam" class="beam" aria-hidden="true" hidden>
+      <path class="beam-glow" id="beamGlow"/><path class="beam-core" id="beamCore"/>
+      <circle id="beamStart" class="beam-tip" r="5"/><circle id="beamEnd" class="beam-tip" r="6"/>
+    </svg>
+  </div>
+  <p class="teacher-note">White-key reading · Treble C4–F5 · Bass C3–C4 · Fixed Do: C = Do</p>
+  <p class="sound-status" id="soundStatus" role="status"></p>
+</main>
+</body></html>

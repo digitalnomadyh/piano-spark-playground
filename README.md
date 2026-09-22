@@ -50,4 +50,3 @@ No package installation is required for these scripts. Do not edit the generated
 - PDF.js 3.11.174: PDF preview; license in `dist/vendor/PDFJS-LICENSE.txt`. PDF evaluation and XFA are disabled.
 
 This is a teaching prototype. Check prepared transcriptions against the original score before using them in lessons.
-

@@ -1,0 +1,18 @@
+# Local service configuration, credentials, and personal files
+.openai/
+.sites-runtime/
+.env
+.env.*
+!.env.example
+node_modules/
+outputs/
+*.log
+
+# Keep only the small build and verification scripts from the work folder.
+work/*
+!work/build.cjs
+!work/check-music.cjs
+!work/check-song.cjs
+
+.DS_Store
+Thumbs.db
