@@ -25,7 +25,15 @@ The generated `dist/index.html` contains the app scripts, styles, and PDF worker
 python -m http.server 8765 --directory dist
 ```
 
-Then open http://localhost:8765/ in your browser. This local URL works only while the server is running; creating this GitHub repository does not deploy a public website.
+Then open http://localhost:8765/ in your browser. This local URL works only while the server is running.
+
+## Public website
+
+Every push to `main` runs the checks, rebuilds the page, and publishes `dist/` to GitHub Pages via `.github/workflows/pages.yml`:
+
+https://digitalnomadyh.github.io/piano-spark-playground/
+
+This requires **Settings → Pages → Build and deployment → Source: GitHub Actions** to be enabled once in the repository.
 
 ## Edit and build
 
